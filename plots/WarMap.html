@@ -1,0 +1,112 @@
+<html>
+        <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>Dare to Dream | VNIT ECE</title>
+            <link rel="stylesheet" type="text/css" href="mapStyle.css">
+            <link href="https://fonts.googleapis.com/css?family=PT+Serif|PT+Serif+Caption" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=PT+Serif+Caption" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Charm:700|Lobster|Roboto+Slab" rel="stylesheet">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false&key=AIzaSyB9sJrDCh8E5vtqKJUoq5Map673SnGLVSE"></script>
+        <script type="text/javascript">function initialize() {
+            var centerlatlng = new google.maps.LatLng(21.12888647, 79.05642298);
+    
+            var myOptions = {
+                zoom: 19,
+                center: centerlatlng,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+var latlng = new google.maps.LatLng(21.129642, 79.056221);
+            var img = new google.maps.MarkerImage('https://img.icons8.com/ios/50/000000/soldier-filled.png');
+            var marker = new google.maps.Marker({
+            title: "Soldier1 ecg: 100 bp: 120 active",
+            icon: img,
+            position: latlng
+            });
+            marker.setMap(map);
+var latlng = new google.maps.LatLng(21.1291124, 79.0564009);
+            var img = new google.maps.MarkerImage('https://img.icons8.com/ios/50/000000/soldier-filled.png');
+            var marker = new google.maps.Marker({
+            title: "Soldier3 ecg: 100 bp: 120 active",
+            icon: img,
+            position: latlng
+            });
+            marker.setMap(map);
+var latlng = new google.maps.LatLng(79.0559369489115,21.12887251708311);
+            var img = new google.maps.MarkerImage('https://img.icons8.com/metro/26/000000/poison.png');
+            var marker = new google.maps.Marker({
+            title: "Enemy",
+            icon: img,
+            position: latlng
+            });
+            marker.setMap(map);
+
+            var PolylineCoordinates = [
+            new google.maps.LatLng(21.129642, 79.056221),
+            new google.maps.LatLng(21.12887251708311, 79.0559369489115),
+            new google.maps.LatLng(21.1291124, 79.0564009),
+        ];
+        
+        var Path = new google.maps.Polyline({
+            clickable: false,
+            geodesic: true,
+            path: PolylineCoordinates,
+            strokeColor: "#B22222",
+            strokeOpacity: 1.000000,
+            strokeWeight: 2
+        });
+        
+        Path.setMap(map); 
+                	}
+            </script>
+            </head>
+            <body style="margin:0px; padding:0px;" onload="initialize()">
+                <nav class="sticky-top navbar-custom" id="header">
+                        <div class="container-fluid ">
+                            <div class="navbar-toggle" onclick="myFunction()">
+                                <i class="fa fa-fw fa-bars"></i>
+                            </div>
+                            <div>
+                                <a class="navbar-brand" href="#">VNIT</a>
+                                <div class="bar-title">
+                                    <center><h2>Electronics and Communication Engineering</h2></center>
+                                </div>
+
+                            </div>
+                        </div>
+                    </nav>
+                <div class="left-container">
+                    <div class="soldier-data">
+                        <span class="soldier-title">Soldier 1</span><br>
+                        <span>ECG : 100</span><br>
+                        <span>BP: 120</span><br>
+                        <span>Status: active</span><br>
+                        <span>Location: 21.129642, 79.056221</span><br>
+                    </div>
+
+                    <hr style="background-color: #00826e; height: 1px">
+
+                    <div class="soldier-data">
+                        <span class="soldier-title">Soldier 2</span><br>
+                         <span>ECG : 100</span><br>
+                        <span>BP: 120</span><br>
+                        <span>Status: active</span><br>
+                        <span>Location: 21.1291124, 79.0564009</span><br>
+                    </div>
+
+                    <hr style="background-color: #00826e; height: 1px">
+
+                    <div class="soldier-data">
+                        <span class="soldier-title">Enemy Prediction</span><br>
+                        <span>Location Predicted: <br>21.12887251708311, <br>79.0559369489115 </span><br>
+                    </div>
+
+                </div>
+                <div id="map_canvas"></div>
+                <div class="footer"> Copyright : VNIT ECE </div>
+            </body>
+            </html>

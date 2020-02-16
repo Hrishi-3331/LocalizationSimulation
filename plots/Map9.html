@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>System Simulation</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.2/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif|PT+Serif+Caption" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif+Caption" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Charm:700|Lobster|Roboto+Slab" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../maps/style.css">
+</head>
+<body>
+
+<nav class="sticky-top navbar-custom" id="header">
+    <div class="container-fluid ">
+        <div class="navbar-toggle" onclick="myFunction()">
+            <i class="fa fa-fw fa-bars"></i>
+        </div>
+        <div>
+            <div class="bar-title">
+                <center><h2 style="font-size: x-large">WarFare Simulation</h2></center>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<div class="row" style="height: 88%">
+    <div class="col-sm-3 left-container" style="overflow-y: hidden">
+        <center><div style="padding: 6px; color: white; font-family: 'Segoe UI',serif; font-weight: bold; font-size: large">Soldiers</div></center>
+        <div class="row" style="height: 45%; border-bottom: 2px solid darkgray; padding: 4px; text-align: center; border-top: white solid 1px; overflow-y: scroll">
+            <div class="col-sm-4" id="soldier_label">
+               <b>Label</b>
+            </div>
+            <div class="col-sm-4" id="soldier_latitude">
+                <b>Latitude</b>
+            </div>
+            <div class="sol-sm-4" id="soldier_longitude">
+                <b>Longitude</b>
+            </div>
+        </div>
+        <center><div style="padding: 6px; color: white; font-family: 'Segoe UI',serif; font-weight: bold; font-size: large">Enemies</div></center>
+        <div class="row" style="height: 45%; border-bottom: 2px solid darkgray; padding: 4px; text-align: center; border-top: white solid 1px;overflow-y: scroll">
+            <div class="col-sm-4" id="enemy_label">
+                <b>Label</b>
+            </div>
+            <div class="col-sm-4" id="enemy_latitude">
+                <b>Latitude</b>
+            </div>
+            <div class="sol-sm-4" id="enemy_longitude">
+                <b>Longitude</b>
+            </div>
+        </div>
+    </div>
+    <div id='map' class="col-sm-6"></div>
+    <div class="col-sm-3 right-container">
+        <center><div style="padding: 6px; color: white; font-family: 'Segoe UI',serif; font-weight: bold; font-size: large"> Predictions </div></center>
+        <div class="row" style="height:100%; border-bottom: 2px solid darkgray; padding: 4px; text-align: center; border-top: white solid 1px; overflow-y: scroll">
+            <div class="col-sm-4" id="prediction_label">
+               <b>Label</b>
+            </div>
+            <div class="col-sm-4" id="prediction_latitude">
+                <b>Latitude</b>
+            </div>
+            <div class="sol-sm-4" id="prediction_longitude">
+                <b>Longitude</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer"> Copyright : VNIT ECE </div>
+
+<script>
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
+        };
+        rawFile.send(null);
+    }
+
+
+    readTextFile("./soldiers.geojson", function(text){
+        var data = JSON.parse(text);
+        n = Object.keys(data.features).length;
+        var label_html = '<b>Label</b><br><br>';
+        for (i = 0; i < n; i++)
+            label_html += 'Soldier ' + i.toString() + '<br><br>';
+
+        var latitude_html = '<b>Latitude</b><br><br>';
+        for (i = 0; i < n; i++)
+            latitude_html += data.features[i].geometry.coordinates[1] + '<br><br>';
+
+        var longitude_html = '<b>Longitude</b><br><br>';
+        for (i = 0; i < n; i++)
+            longitude_html += data.features[i].geometry.coordinates[0] + '<br><br>';
+
+        $(document).ready(function(){
+            $("#soldier_label").html(label_html);
+            $("#soldier_latitude").html(latitude_html);
+            $("#soldier_longitude").html(longitude_html);
+        });
+    });
+
+    readTextFile("./enemies.geojson", function(text){
+        var data = JSON.parse(text);
+        n = Object.keys(data.features).length;
+        var label_html = '<b>Label</b><br><br>';
+        for (i = 0; i < n; i++)
+            label_html += 'Enemy ' + i.toString() + '<br><br>';
+
+        var latitude_html = '<b>Latitude</b><br><br>';
+        for (i = 0; i < n; i++)
+            latitude_html += data.features[i].geometry.coordinates[1] + '<br><br>';
+
+        var longitude_html = '<b>Longitude</b><br><br>';
+        for (i = 0; i < n; i++)
+            longitude_html += data.features[i].geometry.coordinates[0] + '<br><br>';
+
+        $(document).ready(function(){
+            $("#enemy_label").html(label_html);
+            $("#enemy_latitude").html(latitude_html);
+            $("#enemy_longitude").html(longitude_html);
+        });
+    });
+
+    readTextFile("./predictions.geojson", function(text){
+        var data = JSON.parse(text);
+        n = Object.keys(data.features).length;
+        var label_html = '<b>Label</b><br><br>';
+        for (i = 0; i < n; i++)
+            label_html += 'Enemy ' + i.toString() + '<br><br>';
+
+        var latitude_html = '<b>Latitude</b><br><br>';
+        for (i = 0; i < n; i++)
+            latitude_html += data.features[i].geometry.coordinates[1] + '<br><br>';
+
+        var longitude_html = '<b>Longitude</b><br><br>';
+        for (i = 0; i < n; i++)
+            longitude_html += data.features[i].geometry.coordinates[0] + '<br><br>';
+
+        $(document).ready(function(){
+            $("#prediction_label").html(label_html);
+            $("#prediction_latitude").html(latitude_html);
+            $("#prediction_longitude").html(longitude_html);
+        });
+    });
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaHJpc2hpLTMzMzEiLCJhIjoiY2p3enpxZ3NqMHdpaDN5b3luMHhsdnlrdCJ9.gLk8ChT7pKjMRfDtrlDNcw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/satellite-v9',
+        zoom: 18.5,
+        center: [79.0563, 21.1293]
+    });
+
+    var predictions_url = "./predictions9.geojson";
+    var soldier_url = './soldiers.geojson';
+    var enemies_url = './enemies.geojson';
+    var shoot_url = './shoots.geojson';
+
+    map.on('load', function () {
+        window.setInterval(function() {
+            map.getSource('enemies').setData(enemies_url);
+            map.getSource('soldiers').setData(soldier_url);
+            map.getSource('predictions').setData(predictions_url);
+        }, 15000);
+
+        map.addSource('enemies', { type: 'geojson', data: enemies_url });
+        map.addSource('soldiers', { type: 'geojson', data: soldier_url });
+        map.addSource('predictions', { type: 'geojson', data: predictions_url });
+        map.addSource('shoots', { type: 'geojson', data: shoot_url });
+
+        map.addLayer({
+            "id": "predictions",
+            "type": "circle",
+            "source": "predictions",
+            "paint": {
+            "circle-radius": 15,
+            "circle-color": "#415ccb",
+            "circle-opacity": 0.6
+            },
+        });
+
+        map.addLayer({
+            "id": "soldier",
+            "type": "circle",
+            "source": "soldiers",
+            "paint": {
+            "circle-radius": 6,
+            "circle-color": "#B42222"
+            },
+            "filter": ["==", "$type", "Point"],
+        });
+
+        map.addLayer({
+            "id": "enemy",
+            "type": "circle",
+            "source": "enemies",
+            "paint": {
+            "circle-radius": 6,
+            "circle-color": "#000000"
+            },
+            "filter": ["==", "$type", "Point"],
+        });
+
+        map.addLayer({
+            "id": "shoots",
+            "type": "line",
+            "source": "shoots",
+            "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+            },
+            "paint": {
+            "line-color": "#9c0715",
+            "line-width": 2
+            }
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
+
+<!--  map.addLayer({
+            "id": "predictions",
+            "type": "circle",
+            "source": "predictions",
+            "paint": {
+            "circle-radius": 20,
+            "circle-color": "#415ccb"
+            },
+            "filter": ["==", "$type", "Point"],
+        }); -->

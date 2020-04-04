@@ -1,5 +1,14 @@
+"""
+Created by Hrishikesh Ugale
+10/05/2019
+Test location:
+Chicago:
+Lat: 41.85, Long: -87.64999999999998
+x: 65.67111111111113, y: 95.17492654697409
+"""
+
 import math
-import Calculations as SimCalculator
+from Setup import Calculations as SimCalculator
 
 '''input('Enter the coordinates : True loc, Predicted loc, Soldier loc')
 arr = input()   # takes the whole line of n numbers

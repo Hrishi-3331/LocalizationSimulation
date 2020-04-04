@@ -1,10 +1,20 @@
+"""
+Created by Hrishikesh Ugale
+10/05/2019
+Test location:
+Chicago:
+Lat: 41.85, Long: -87.64999999999998
+x: 65.67111111111113, y: 95.17492654697409
+"""
+
 import random
-from soldier import Soldier
-from enemy import Enemy
+from Objects.soldier import Soldier
+from Objects.enemy import Enemy
 import math
-import Calculations as SimCalculator
+from Setup import Calculations as SimCalculator
 
 
+# Generate Soldiers at random locations on battlefield
 def generate_soldiers(n):
     c_lat = 21.129
     c_lon = 79.056
@@ -19,6 +29,7 @@ def generate_soldiers(n):
     return soldiers
 
 
+# Generate enemies at random locations on battlefield
 def generate_enemies(n):
     c_lat = 21.129
     c_lon = 79.056
@@ -33,6 +44,7 @@ def generate_enemies(n):
     return enemies
 
 
+# Calculate angle w.r.t north using trigonometric calculations.
 def calculate_true_angle(soldier):
     lat = soldier.get_latitude()
     lon = soldier.get_longitude()
@@ -51,6 +63,7 @@ def calculate_true_angle(soldier):
     return phi
 
 
+# Returns gps coordinates of soldier
 def get_coordinates(soldier):
     lat = soldier.get_latitude()
     lon = soldier.get_longitude()
@@ -58,6 +71,7 @@ def get_coordinates(soldier):
     return sc
 
 
+# Returns distance between two locations in meters
 def get_distance(lon1, lat1, lon2, lat2):
     lon1, lat1, lon2, lat2 = map(math.radians, [lon1, lat1, lon2, lat2])
     dlon = lon2 - lon1
@@ -66,6 +80,7 @@ def get_distance(lon1, lat1, lon2, lat2):
     return round(2 * 6371 * math.asin(math.sqrt(a)) * 1000, 2)
 
 
+# Returns random positive and negative errors
 def get_random_error():
     a = random.random()
     if a < 0.5:

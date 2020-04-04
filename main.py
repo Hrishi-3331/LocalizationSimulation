@@ -1,20 +1,20 @@
 import random
-import Calculations
-import SimulationSetup as Setup
+from Setup import Calculations, SimulationSetup as Setup
 import json as json
-from prediction import Prediction
+from Objects.prediction import Prediction
 
 riffle_range = 300
 ns = int(input('Enter number of soldiers :'))
 ne = int(input('Enter number of enemies :'))
+N = int(input('Enter number of frames to be analyzed :'))
 
 soldiers = Setup.generate_soldiers(ns)
 enemies = Setup.generate_enemies(ne)
 set_points = []
 
-for z in range(0, 10):
+for z in range(0, N):
     predictions = []
-    for x in range(0, 10):
+    for x in range(0, N):
         i = 0
         done = []
         el = len(enemies)
@@ -40,7 +40,7 @@ for z in range(0, 10):
         # Obtaining azimuth :
         for soldier in soldiers:
             angle = Setup.calculate_true_angle(soldier)
-            azimuth = angle  #+ random.random()*0.01745329# max error : 4 degrees
+            azimuth = angle
             soldier.set_azimuth(azimuth)
 
         # Start simulation
@@ -132,12 +132,6 @@ for z in range(0, 10):
         if prediction.prob > 0.2:
             prediction_result.append(prediction)
 
-    print("\n\nPredictions : Iteration " + str(z) + "\n\n")
-    for point in set_points:
-        print(str(point.get_probability()) + ', ' + str(point.get_latitude()) + ', ' + str(point.get_longitude()))
-
-    print("\n\n")
-
     features = []
     i = 0
     for enemy in enemies:
@@ -197,6 +191,12 @@ for z in range(0, 10):
     features = []
     i = 0
     for prediction in prediction_result:
+        for soldier in soldiers:
+            if Setup.get_distance(prediction.get_longitude(), prediction.get_latitude(), soldier.get_longitude(), soldier.get_latitude()) < 6:
+                prediction_result.remove(prediction)
+                break
+
+    for prediction in prediction_result:
         temp = {
             "type": "Feature",
             "geometry": {
@@ -245,3 +245,5 @@ for z in range(0, 10):
 
     with open('./plots/shoots' + str(z) + '.geojson', 'w') as outfile:
         json.dump(shoot_data, outfile)
+
+print("Simulation complete.")

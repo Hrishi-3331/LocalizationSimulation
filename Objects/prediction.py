@@ -1,6 +1,3 @@
-import SimulationSetup as setup
-
-
 class Prediction:
 
     def __init__(self, longitude, latitude):
@@ -23,7 +20,7 @@ class Prediction:
         return self.longitude
 
     def equals(self, prediction):
-        if (self.get_latitude() - prediction.get_latitude() == 0) and (self.get_longitude() - prediction.get_longitude() == 0):
+        if self.latitude - prediction.latitude == 0 and self.longitude - prediction.longitude == 0:
             return True
         else:
             return False

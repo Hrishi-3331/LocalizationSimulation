@@ -33,7 +33,6 @@ def get_enemy_location(x1, y1, x2, y2, w1, w2):
     res = [x, y]
     return res
 
-
 # Tested ok with chicago coordinates
 def inverse_mercator(x, y):
     lng = (x/256 * 360) - 180

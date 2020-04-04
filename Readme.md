@@ -1,12 +1,12 @@
-#Enemy  Localization using Gun Mountable Sensors
+# Enemy  Localization using Gun Mountable Sensors
 
 >Nikhil Gaikwad<br />
  Hrishikesh Ugale<br />
 _Visvesvaraya National Institute of Technology, Nagpur_
 
-##Simulation of Localization algorithm
+## Simulation of Localization algorithm
 
-###Instructions for creating Simulation Environment
+### Instructions for creating Simulation Environment
 
 1. Install Python 3.7.0 and pip 18.0 in your PC.
 2. Clone the repository to directory of your PC.
@@ -14,7 +14,7 @@ _Visvesvaraya National Institute of Technology, Nagpur_
 
 >_Users may also prefer to create a virtual environment to run simulator_
 
-###Instructions to use simulator:
+### Instructions to use simulator:
 
 1. Run the main.py file
 1. Terminal will ask for following inputs:

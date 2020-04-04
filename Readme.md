@@ -30,3 +30,10 @@ VNIT Sports Ground <br />
 Latitude: 21.1288441<br />
 Longitude: 79.0535207<br />
 
+## Simulator Details:
+
+#### Red dots - Soldier Locations
+#### Black dots - True enemy locations
+#### Blue Circles - Localization results for that frame.
+
+![Readme Doc](https://user-images.githubusercontent.com/43084197/78444932-b27e1200-7696-11ea-9625-9ff173774aa6.png)
